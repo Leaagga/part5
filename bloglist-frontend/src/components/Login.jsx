@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 
-const Login=({ username, password, setUsername, setPassword,setUser })=>{
+const Login=({ username, password, setUsername, setPassword,setUser,setLoginHandle,loginhandle})=>{
     const handleLogin=async (event)=>{
         event.preventDefault()
 
@@ -11,6 +11,8 @@ const Login=({ username, password, setUsername, setPassword,setUser })=>{
         setUser(body)
         setUsername('')
         setPassword('')
+        setLoginHandle(!loginhandle)
+        console.log(loginhandle)
     }catch(exception){
         console.log('Wrong credentials')
         console.log(exception)

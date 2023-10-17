@@ -8,6 +8,7 @@ const App = () => {
   const [username,setUsername]=useState()
   const [password,setPassword]=useState()
   const [user,setUser]=useState()
+  const [loginhandle,setLoginHandle]=useState(false)
   // useEffect(async () => {
   //   const blog =await blogService.setToken(body.token).getAll()
   //   setBlogs( blogs )
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <div>
         {user
-        ?<Blog blogs={blogs} setBlogs={setBlogs} user={user} username={username}/>
+        ?<Blog blogs={blogs} setBlogs={setBlogs} user={user} username={username} setUser={setUser} loginhandle={loginhandle} setLoginHandle={setLoginHandle} />
         :<Login
           username={username}
           password={password}
@@ -25,6 +26,8 @@ const App = () => {
           setPassword={setPassword}
           user={user}
           setUser={setUser}
+          loginhandle={loginhandle}
+          setLoginHandle={setLoginHandle}
         />}
     </div>
   )
