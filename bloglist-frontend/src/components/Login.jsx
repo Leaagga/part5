@@ -8,6 +8,9 @@ const Login=({ username, password, setUsername, setPassword,setUser,setLoginHand
         try{
         const body=await loginService.login({username:username,password:password})
         console.log(body)
+        window.localStorage.setItem(
+            'loggedBlogUser',JSON.stringify(body)
+        )
         setUser(body)
         setUsername('')
         setPassword('')

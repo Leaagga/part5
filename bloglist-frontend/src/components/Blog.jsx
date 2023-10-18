@@ -25,6 +25,7 @@ const Blog=({setBlogs,blogs,user,setUser,loginhandle})=>{
     setUser()
     setBlogs([])
     blogService.setToken('')
+    window.localStorage.clear()
   }
   const handleCreate=(event)=>{
     event.preventDefault()

@@ -9,11 +9,16 @@ const App = () => {
   const [password,setPassword]=useState()
   const [user,setUser]=useState()
   const [loginhandle,setLoginHandle]=useState(false)
-  // useEffect(async () => {
-  //   const blog =await blogService.setToken(body.token).getAll()
-  //   setBlogs( blogs )
+  useEffect(() => {
+    const loggedUserJSON=window.localStorage.getItem('loggedBlogUser')
+    if (loggedUserJSON){
+      const localuser=JSON.parse(loggedUserJSON)
+      console.log(localuser)
+      setUser(localuser)
+      setLoginHandle(!loginhandle)
+    }
       
-  // }, [])
+}, [])
   
   return (
     <div>
