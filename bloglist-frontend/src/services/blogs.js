@@ -8,7 +8,7 @@ const setToken=(anytoken)=>{
 const getAll =async (newToken) => {
   token=`bearer ${newToken}`
   console.log(token)
-  let config={
+  const config={
     headers:{
       Authorization:token
     }
@@ -17,5 +17,19 @@ const getAll =async (newToken) => {
   console.log(response)
   return response.data
 }
+const create =async (blog,newToken)=>{
 
-export default { getAll,setToken }
+  token=`bearer ${newToken}`
+  const config={
+    headers:{
+      Authorization:token
+    }}
+  const response= await axios.post(baseUrl,blog,config)
+  console.log(response)
+  return response.data
+
+
+
+}
+
+export default { getAll,setToken,create }
