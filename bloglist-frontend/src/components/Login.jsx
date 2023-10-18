@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 
-const Login=({ username, password, setUsername, setPassword,setUser,setLoginHandle,loginhandle})=>{
+const Login=({ username, password, setUsername, setPassword,setUser,setLoginHandle,loginhandle,setMessage})=>{
     const handleLogin=async (event)=>{
         event.preventDefault()
 
@@ -16,18 +16,19 @@ const Login=({ username, password, setUsername, setPassword,setUser,setLoginHand
         setPassword('')
         setLoginHandle(!loginhandle)
         console.log(loginhandle)
+        setMessage(`${body.username} logged in`)
+        setTimeout(()=>setMessage(),5000)
     }catch(exception){
         console.log('Wrong credentials')
         console.log(exception)
+        setMessage('Wrong username or password')
+        setTimeout(()=>setMessage(),5000)
 
 
     }}
 
     return(
     <div>
-        <h2>
-            log in to application
-        </h2>
         <form onSubmit={handleLogin}>
             <div>
                 username

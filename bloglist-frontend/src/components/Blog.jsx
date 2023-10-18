@@ -5,10 +5,11 @@ const Blogitem = ({ blog }) => (
     {blog.title} {blog.author}
   </div>  
 )
-const Blog=({setBlogs,blogs,user,setUser,loginhandle})=>{
+const Blog=({setBlogs,blogs,user,setUser,loginhandle,setMessage})=>{
   const [author,setAuthor]=useState()
   const [url,setUrl]=useState()
   const [title,setTitle]=useState()
+
     useEffect(() => {  
     try{
       console.log(loginhandle)
@@ -20,16 +21,20 @@ const Blog=({setBlogs,blogs,user,setUser,loginhandle})=>{
   }catch(exception){
     console.log(exception)
   }}, [loginhandle])
+
   const logoutHandler=(event)=>{
     event.preventDefault()
     setUser()
     setBlogs([])
     blogService.setToken('')
     window.localStorage.clear()
+    setMessage('Logged out')
+    setTimeout(()=>setMessage(),5000)
   }
+
   const handleCreate=(event)=>{
     event.preventDefault()
-    const blog ={
+    try{    const blog ={
       author:author,
       url:url,
       title:title
@@ -37,11 +42,16 @@ const Blog=({setBlogs,blogs,user,setUser,loginhandle})=>{
     }
     blogService.create(blog,user.token)
             .then(blog=>setBlogs(blogs.concat(blog)))
-
+    setMessage(`a new blog ${blog.title} by ${blog.author} added`)
+    setTimeout(()=>setMessage(),5000)
+  }catch(exception){
+    setMessage(exception)
+    setTimeout(()=>setMessage(),5000)
+    
+  }
   }
   return(
       <div>
-      <h2>blogs</h2>
       <div>
       <from>
         <label>
