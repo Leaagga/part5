@@ -5,10 +5,14 @@ const Blogitem = ({ blog }) => (
     {blog.title} {blog.author}
   </div>  
 )
-const Blog=({setBlogs,blogs,user,setUser,loginhandle,setMessage})=>{
+const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNoteVisible})=>{
   const [author,setAuthor]=useState()
   const [url,setUrl]=useState()
   const [title,setTitle]=useState()
+  const [blogs, setBlogs] = useState([])
+  const hideWhenVisible = {display:createNoteVisible?'none':''}
+  const showWhenVisible = {display:createNoteVisible?'':'none'}
+
 
     useEffect(() => {  
     try{
@@ -61,9 +65,10 @@ const Blog=({setBlogs,blogs,user,setUser,loginhandle,setMessage})=>{
           logout
         </button>
       </from>
-      <div>
+      <button type="button" onClick={({target})=>setCreateNoteVisible(true)} style={hideWhenVisible}>new note</button>
+      <div style={showWhenVisible}>
         <h2>create new</h2>
-        <form onSubmit={handleCreate}>
+        <form onSubmit={handleCreate} >
           <div>
             title
             <input value={title} name='title' onChange={({target})=>{setTitle(target.value)}} />
@@ -77,7 +82,9 @@ const Blog=({setBlogs,blogs,user,setUser,loginhandle,setMessage})=>{
             <input value={url} name='url' onChange={({target})=>{setUrl(target.value)}} />
           </div>
           <button type='submmit'>create</button>
+          <button type="button" onClick={({target})=>setCreateNoteVisible(false)}>cancel</button>
         </form>
+        
       </div>
       </div>
       {blogs.map(blog =>
