@@ -84,6 +84,7 @@ const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNote
             .then(blog=>setBlogs(blogs.concat(blog)))
     setMessage(`a new blog ${blog.title} by ${blog.author} added`)
     setTimeout(()=>setMessage(),5000)
+    console.log(blogs)
   }catch(exception){
     setMessage(exception)
     setTimeout(()=>setMessage(),5000)
