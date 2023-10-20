@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import loginService from '../services/login'
 
-const Login=({setUser,setLoginHandle,loginhandle,setMessage})=>{
+const Login=({setUser,blogChangHandle,setBlogChangHandle,setMessage})=>{
     const [username,setUsername]=useState()
     const [password,setPassword]=useState()
     const handleLogin=async (event)=>{
@@ -16,7 +16,7 @@ const Login=({setUser,setLoginHandle,loginhandle,setMessage})=>{
         setUser(body)
         setUsername('')
         setPassword('')
-        setLoginHandle(!loginhandle)
+        setBlogChangHandle(!blogChangHandle)
         console.log(loginhandle)
         setMessage(`${body.username} logged in`)
         setTimeout(()=>setMessage(),5000)

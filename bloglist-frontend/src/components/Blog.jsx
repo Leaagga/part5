@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import blogService from '../services/blogs'
 import Togglable from "./Togglable"
-const Blogitem = ({ blog }) => {
+const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle}) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -9,6 +9,13 @@ const Blogitem = ({ blog }) => {
 
   const toggleVisibility = () => {
     setVisible(!visible)
+  }
+  const handleLikes =(event)=>{
+    blogService.putLikes(blog,user.token)
+                .then(response=>{console.log(response)
+                  setBlogChangHandle(!blogChangHandle)})
+                
+
   }
 
   return(
@@ -18,7 +25,7 @@ const Blogitem = ({ blog }) => {
   </label><button onClick={toggleVisibility}>{visible?'hide':'view'}</button></div>
   <div style={showWhenVisible}>
   <div>{blog.url}</div>
-  <div><label>{blog.likes}</label><button>likes</button></div>
+  <div><label>{blog.likes}</label><button onClick={handleLikes}>likes</button></div>
   <div>{blog.user.username}</div></div>
   </div>
 )}
@@ -42,7 +49,7 @@ const BlogForm = ({onSubmit,title,author,url,handleAuthorChange,handleTitleChang
         </form></div>)
 
 }
-const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNoteVisible})=>{
+const Blog=({user,setUser,blogChangHandle,setBlogChangHandle,setMessage})=>{
   const [author,setAuthor]=useState()
   const [url,setUrl]=useState()
   const [title,setTitle]=useState()
@@ -51,7 +58,7 @@ const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNote
 
     useEffect(() => {  
     try{
-      console.log(loginhandle)
+      console.log(blogChangHandle)
       console.log(user.token)
     blogService
     .getAll(user.token)
@@ -59,7 +66,7 @@ const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNote
     console.log(blogs)
   }catch(exception){
     console.log(exception)
-  }}, [loginhandle])
+  }}, [blogChangHandle])
 
   const logoutHandler=(event)=>{
     event.preventDefault()
@@ -115,7 +122,12 @@ const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNote
       </Togglable>
       </div>
       {blogs.map(blog =>
-        <Blogitem key={blog.id} blog={blog} />
+        <Blogitem
+        key={blog.id}
+        blog={blog}
+        user={user}
+        blogChangHandle={blogChangHandle}
+        setBlogChangHandle={setBlogChangHandle}/>
       )}
     </div>)
 }

@@ -6,7 +6,7 @@ const App = () => {
   
 
   const [user,setUser]=useState()
-  const [loginhandle,setLoginHandle]=useState(false)
+  const [blogChangHandle,setBlogChangHandle]=useState(false)
   const [message,setMessage]=useState()
   const [createNoteVisible,setCreateNoteVisible]=useState(false)
   useEffect(() => {
@@ -15,7 +15,7 @@ const App = () => {
       const localuser=JSON.parse(loggedUserJSON)
       console.log(localuser)
       setUser(localuser)
-      setLoginHandle(!loginhandle)
+      setBlogChangHandle(!blogChangHandle)
     }
       
 }, [])
@@ -31,8 +31,8 @@ const App = () => {
         ?<Blog
         user={user}
         setUser={setUser}
-        loginhandle={loginhandle}
-        setLoginHandle={setLoginHandle}
+        blogChangHandle={blogChangHandle}
+        setBlogChangHandle={setBlogChangHandle}
         setMessage={setMessage}
         createNoteVisible={createNoteVisible}
         setCreateNoteVisible={setCreateNoteVisible}
@@ -40,8 +40,8 @@ const App = () => {
         :<Login
           user={user}
           setUser={setUser}
-          loginhandle={loginhandle}
-          setLoginHandle={setLoginHandle}
+          blogChangHandle={blogChangHandle}
+          setBlogChangHandle={setBlogChangHandle}
           setMessage={setMessage}
         />}
     </div></div>

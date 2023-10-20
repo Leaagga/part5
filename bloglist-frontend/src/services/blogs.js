@@ -31,5 +31,21 @@ const create =async (blog,newToken)=>{
 
 
 }
+const putLikes =async (likesBlog,likesToken)=>{
+  token=`bearer ${likesToken}`
+  const config={
+    headers:{
+      Authorization:token
+    }}
+  const likesUrl=`${baseUrl}/${likesBlog.id}`
+  const likes={
+    likes:likesBlog.likes+1
+  }
+  const response=await axios.put(likesUrl,likes,config)
+  console.log(response)
+  return response.data
 
-export default { getAll,setToken,create }
+
+
+}
+export default { getAll,setToken,create,putLikes }
