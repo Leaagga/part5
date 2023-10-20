@@ -121,7 +121,7 @@ const Blog=({user,setUser,blogChangHandle,setBlogChangHandle,setMessage})=>{
           />
       </Togglable>
       </div>
-      {blogs.map(blog =>
+      {blogs.sort((a,b)=>b.likes-a.likes).map(blog =>
         <Blogitem
         key={blog.id}
         blog={blog}
