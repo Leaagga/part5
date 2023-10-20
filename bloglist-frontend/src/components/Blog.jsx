@@ -1,17 +1,36 @@
 import { useEffect, useState } from "react"
 import blogService from '../services/blogs'
+import Togglable from "./Togglable"
 const Blogitem = ({ blog }) => (
   <div>
     {blog.title} {blog.author}
   </div>  
 )
+const BlogForm = ({onSubmit,title,author,url,handleAuthorChange,handleTitleChange,handleUrlChange}) =>{
+  return(<div>
+        <h2>create new</h2>
+        <form onSubmit={onSubmit}>
+          <div>
+            title
+            <input value={title} name='title' onChange={handleTitleChange} />
+          </div>
+          <div>
+            author
+            <input value={author} name='author' onChange={handleAuthorChange} />
+          </div>
+          <div>
+            url
+            <input value={url} name='url' onChange={handleUrlChange} />
+          </div>
+          <button type='submmit'>create</button>
+        </form></div>)
+
+}
 const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNoteVisible})=>{
   const [author,setAuthor]=useState()
   const [url,setUrl]=useState()
   const [title,setTitle]=useState()
   const [blogs, setBlogs] = useState([])
-  const hideWhenVisible = {display:createNoteVisible?'none':''}
-  const showWhenVisible = {display:createNoteVisible?'':'none'}
 
 
     useEffect(() => {  
@@ -38,7 +57,8 @@ const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNote
 
   const handleCreate=(event)=>{
     event.preventDefault()
-    try{    const blog ={
+    try{    
+      const blog ={
       author:author,
       url:url,
       title:title
@@ -65,27 +85,17 @@ const Blog=({user,setUser,loginhandle,setMessage,createNoteVisible,setCreateNote
           logout
         </button>
       </from>
-      <button type="button" onClick={({target})=>setCreateNoteVisible(true)} style={hideWhenVisible}>new note</button>
-      <div style={showWhenVisible}>
-        <h2>create new</h2>
-        <form onSubmit={handleCreate} >
-          <div>
-            title
-            <input value={title} name='title' onChange={({target})=>{setTitle(target.value)}} />
-          </div>
-          <div>
-            author
-            <input value={author} name='author' onChange={({target})=>{setAuthor(target.value)}} />
-          </div>
-          <div>
-            url
-            <input value={url} name='url' onChange={({target})=>{setUrl(target.value)}} />
-          </div>
-          <button type='submmit'>create</button>
-          <button type="button" onClick={({target})=>setCreateNoteVisible(false)}>cancel</button>
-        </form>
-        
-      </div>
+      <Togglable buttonLabel='new blog'>
+        <BlogForm
+        onSubmit={handleCreate}
+        title={title}
+        author={author}
+        url={url}
+        handleAuthorChange={({target})=>{setAuthor(target.value)}}
+        handleTitleChange={({target})=>{setTitle(target.value)}}
+        handleUrlChange={({target})=>{setUrl(target.value)}}
+          />
+      </Togglable>
       </div>
       {blogs.map(blog =>
         <Blogitem key={blog.id} blog={blog} />
