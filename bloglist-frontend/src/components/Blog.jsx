@@ -1,11 +1,27 @@
 import { useEffect, useState } from "react"
 import blogService from '../services/blogs'
 import Togglable from "./Togglable"
-const Blogitem = ({ blog }) => (
+const Blogitem = ({ blog }) => {
+  const [visible, setVisible] = useState(false)
+
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  const showWhenVisible = { display: visible ? '' : 'none' }
+
+  const toggleVisibility = () => {
+    setVisible(!visible)
+  }
+
+  return(
   <div>
+  <div><label>
     {blog.title} {blog.author}
-  </div>  
-)
+  </label><button onClick={toggleVisibility}>{visible?'hide':'view'}</button></div>
+  <div style={showWhenVisible}>
+  <div>{blog.url}</div>
+  <div><label>{blog.likes}</label><button>likes</button></div>
+  <div>{blog.user.username}</div></div>
+  </div>
+)}
 const BlogForm = ({onSubmit,title,author,url,handleAuthorChange,handleTitleChange,handleUrlChange}) =>{
   return(<div>
         <h2>create new</h2>
