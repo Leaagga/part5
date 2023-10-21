@@ -5,6 +5,14 @@ let token=''
 const setToken=(anytoken)=>{
   token=anytoken
 }
+const setAuthorization=(atoken)=>{
+  setToken(`bearer ${atoken}`)
+  return {
+    headers:{
+      Authorization:token
+    }}
+
+}
 const getAll =async (newToken) => {
   token=`bearer ${newToken}`
   console.log(token)
@@ -44,8 +52,13 @@ const putLikes =async (likesBlog,likesToken)=>{
   const response=await axios.put(likesUrl,likes,config)
   console.log(response)
   return response.data
-
-
-
 }
-export default { getAll,setToken,create,putLikes }
+const removeBlog=async(deleteblog,deleteToken)=>{
+  const config=setAuthorization(deleteToken)
+  const deleteUrl=`${baseUrl}/${deleteblog.id}`
+  const response=await axios.delete(deleteUrl,config)
+  console.log(response)
+  return response
+  
+}
+export default { getAll,setToken,create,putLikes,removeBlog }

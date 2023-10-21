@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import blogService from '../services/blogs'
 import Togglable from "./Togglable"
-const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle}) => {
+const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle,setBlogs,blogs}) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -14,8 +14,14 @@ const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle}) => {
     blogService.putLikes(blog,user.token)
                 .then(response=>{console.log(response)
                   setBlogChangHandle(!blogChangHandle)})
-                
-
+  }
+  const handleDelete =(event)=>{
+    if (window.confirm(`Removing ${blog.title} ${blog.author}`)){
+      blogService.removeBlog(blog,user.token)
+                  .then(response=>{if(response.status==204){
+                    setBlogs(blogs.filter(newblog=>newblog.id!=blog.id))
+                    console.log(response)}})
+    }
   }
 
   return(
@@ -26,7 +32,9 @@ const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle}) => {
   <div style={showWhenVisible}>
   <div>{blog.url}</div>
   <div><label>{blog.likes}</label><button onClick={handleLikes}>likes</button></div>
-  <div>{blog.user.username}</div></div>
+  <div>{blog.user.username}</div>
+  <button onClick={handleDelete}>remove</button>
+  </div>
   </div>
 )}
 const BlogForm = ({onSubmit,title,author,url,handleAuthorChange,handleTitleChange,handleUrlChange}) =>{
@@ -127,7 +135,9 @@ const Blog=({user,setUser,blogChangHandle,setBlogChangHandle,setMessage})=>{
         blog={blog}
         user={user}
         blogChangHandle={blogChangHandle}
-        setBlogChangHandle={setBlogChangHandle}/>
+        setBlogChangHandle={setBlogChangHandle}
+        blogs={blogs}
+        setBlogs={setBlogs}/>
       )}
     </div>)
 }
