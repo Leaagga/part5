@@ -2,15 +2,15 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/blogs'
 
 let token=''
-const setToken=(anytoken)=>{
+const setToken=(anytoken) => {
   token=anytoken
 }
-const setAuthorization=(atoken)=>{
+const setAuthorization=(atoken) => {
   setToken(`bearer ${atoken}`)
   return {
     headers:{
       Authorization:token
-    }}
+    } }
 
 }
 const getAll =async (newToken) => {
@@ -25,13 +25,13 @@ const getAll =async (newToken) => {
   console.log(response)
   return response.data
 }
-const create =async (blog,newToken)=>{
+const create =async (blog,newToken) => {
 
   token=`bearer ${newToken}`
   const config={
     headers:{
       Authorization:token
-    }}
+    } }
   const response= await axios.post(baseUrl,blog,config)
   console.log(response)
   return response.data
@@ -39,12 +39,12 @@ const create =async (blog,newToken)=>{
 
 
 }
-const putLikes =async (likesBlog,likesToken)=>{
+const putLikes =async (likesBlog,likesToken) => {
   token=`bearer ${likesToken}`
   const config={
     headers:{
       Authorization:token
-    }}
+    } }
   const likesUrl=`${baseUrl}/${likesBlog.id}`
   const likes={
     likes:likesBlog.likes+1
@@ -53,12 +53,11 @@ const putLikes =async (likesBlog,likesToken)=>{
   console.log(response)
   return response.data
 }
-const removeBlog=async(deleteblog,deleteToken)=>{
+const removeBlog=async(deleteblog,deleteToken) => {
   const config=setAuthorization(deleteToken)
   const deleteUrl=`${baseUrl}/${deleteblog.id}`
   const response=await axios.delete(deleteUrl,config)
   console.log(response)
   return response
-  
 }
 export default { getAll,setToken,create,putLikes,removeBlog }

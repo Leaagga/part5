@@ -3,8 +3,6 @@ import Blog from './components/Blog'
 import Message from './components/Message'
 import Login from './components/Login'
 const App = () => {
-  
-
   const [user,setUser]=useState()
   const [blogChangHandle,setBlogChangHandle]=useState(false)
   const [message,setMessage]=useState()
@@ -16,35 +14,32 @@ const App = () => {
       console.log(localuser)
       setUser(localuser)
       setBlogChangHandle(!blogChangHandle)
-    }
-      
-}, [])
-  
+    }}, [])
   return (
-  <div>
     <div>
-      {user?<h2>blogs</h2>:<h2>log in to application</h2>}
-    </div>
-    <Message message={message} />
-    <div>
+      <div>
+        {user?<h2>blogs</h2>:<h2>log in to application</h2>}
+      </div>
+      <Message message={message} />
+      <div>
         {user
-        ?<Blog
-        user={user}
-        setUser={setUser}
-        blogChangHandle={blogChangHandle}
-        setBlogChangHandle={setBlogChangHandle}
-        setMessage={setMessage}
-        createNoteVisible={createNoteVisible}
-        setCreateNoteVisible={setCreateNoteVisible}
-        />
-        :<Login
-          user={user}
-          setUser={setUser}
-          blogChangHandle={blogChangHandle}
-          setBlogChangHandle={setBlogChangHandle}
-          setMessage={setMessage}
-        />}
-    </div></div>
+          ?<Blog
+            user={user}
+            setUser={setUser}
+            blogChangHandle={blogChangHandle}
+            setBlogChangHandle={setBlogChangHandle}
+            setMessage={setMessage}
+            createNoteVisible={createNoteVisible}
+            setCreateNoteVisible={setCreateNoteVisible}
+          />
+          :<Login
+            user={user}
+            setUser={setUser}
+            blogChangHandle={blogChangHandle}
+            setBlogChangHandle={setBlogChangHandle}
+            setMessage={setMessage}
+          />}
+      </div></div>
   )
 }
 
