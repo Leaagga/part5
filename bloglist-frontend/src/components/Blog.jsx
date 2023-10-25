@@ -101,6 +101,11 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
       setMessage(exception)
       setTimeout(() => setMessage(),5000)}
   }
+  const handleLikes =(blog,user) => {
+    blogService.putLikes(blog,user.token)
+      .then((response) => {console.log(response)
+        setBlogChangHandle(!blogChangHandle)})
+  }
   return(
     <div>
       <div>
@@ -132,7 +137,8 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
           blogChangHandle={blogChangHandle}
           setBlogChangHandle={setBlogChangHandle}
           blogs={blogs}
-          setBlogs={setBlogs}/>
+          setBlogs={setBlogs}
+          handleLikes={handleLikes}/>
       )}
     </div>)
 }

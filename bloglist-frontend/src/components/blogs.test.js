@@ -39,3 +39,27 @@ describe('test Blogitem',() => {
     expect(likes).toBe('1000')
     expect(url).toBe('url1')
   })})
+test('clicking likes button twice and the event handler called twice',async () => {
+  const blog={
+    title:'title1',
+    author:'author1',
+    likes:1000,
+    url:'url1',
+    user:{
+      username:'username1'
+    }
+  }
+  const mockHandler=jest.fn()
+  const { container }=render(<Blogitem blog={blog} handleLikes={mockHandler}/>)
+  console.log(container)
+  const user=userEvent.setup()
+  const viewButton=screen.getByText('view')
+  await user.click(viewButton)
+
+  const likesButton = screen.getByText('likes')
+  await user.click(likesButton)
+  await user.click(likesButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+
+})
