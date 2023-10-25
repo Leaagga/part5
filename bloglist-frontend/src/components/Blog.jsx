@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import blogService from '../services/blogs'
 import Togglable from './Togglable'
 import Blogitem from './Blogitem'
+import BlogForm from './BlogForm'
 // const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle,setBlogs,blogs }) => {
 //   const [visible, setVisible] = useState(false)
 
@@ -37,30 +38,28 @@ import Blogitem from './Blogitem'
 //         <button onClick={handleDelete}>remove</button>
 //       </div>
 //     </div>)}
-const BlogForm = ({ onSubmit,title,author,url,handleAuthorChange,handleTitleChange,handleUrlChange }) => {
-  return(<div>
-    <h2>create new</h2>
-    <form onSubmit={onSubmit}>
-      <div>
-            title
-        <input value={title} name='title' onChange={handleTitleChange} />
-      </div>
-      <div>
-            author
-        <input value={author} name='author' onChange={handleAuthorChange} />
-      </div>
-      <div>
-            url
-        <input value={url} name='url' onChange={handleUrlChange} />
-      </div>
-      <button type='submmit'>create</button>
-    </form></div>)
+// const BlogForm = ({ onSubmit,title,author,url,handleAuthorChange,handleTitleChange,handleUrlChange }) => {
+//   return(<div>
+//     <h2>create new</h2>
+//     <form onSubmit={onSubmit}>
+//       <div>
+//             title
+//         <input value={title} name='title' onChange={handleTitleChange} />
+//       </div>
+//       <div>
+//             author
+//         <input value={author} name='author' onChange={handleAuthorChange} />
+//       </div>
+//       <div>
+//             url
+//         <input value={url} name='url' onChange={handleUrlChange} />
+//       </div>
+//       <button type='submmit'>create</button>
+//     </form></div>)
 
-}
+// }
 const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
-  const [author,setAuthor]=useState()
-  const [url,setUrl]=useState()
-  const [title,setTitle]=useState()
+
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
@@ -85,8 +84,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
     setTimeout(() => setMessage(),5000)
   }
 
-  const handleCreate=(event) => {
-    event.preventDefault()
+  const handleCreate=({ author,url,title }) => {
     try{
       const blog ={
         author:author,
@@ -103,8 +101,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
   }
   const handleLikes =(blog,user) => {
     blogService.putLikes(blog,user.token)
-      .then((response) => {console.log(response)
-        setBlogChangHandle(!blogChangHandle)})
+      .then((response) => {console.log(response)})
   }
   return(
     <div>
@@ -119,13 +116,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
         </form>
         <Togglable buttonLabel='new blog'>
           <BlogForm
-            onSubmit={handleCreate}
-            title={title}
-            author={author}
-            url={url}
-            handleAuthorChange={({ target }) => {setAuthor(target.value)}}
-            handleTitleChange={({ target }) => {setTitle(target.value)}}
-            handleUrlChange={({ target }) => {setUrl(target.value)}}
+            createBlog={handleCreate}
           />
         </Togglable>
       </div>
@@ -138,7 +129,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
           setBlogChangHandle={setBlogChangHandle}
           blogs={blogs}
           setBlogs={setBlogs}
-          handleLikes={handleLikes}/>
+          addLikes={handleLikes}/>
       )}
     </div>)
 }

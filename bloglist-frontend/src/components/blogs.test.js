@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blogitem from './Blogitem'
-
+import BlogForm from './BlogForm'
 describe('test Blogitem',() => {
   let container
   beforeEach(() => {
@@ -62,4 +62,25 @@ test('clicking likes button twice and the event handler called twice',async () =
 
   expect(mockHandler.mock.calls).toHaveLength(2)
 
+})
+test('when create a new blog event handler received the right details',async () => {
+  const mockHandler=jest.fn()
+  render(<BlogForm createBlog={mockHandler}/>)
+  const user=userEvent.setup()
+  const inputs = screen.getAllByRole('textbox')
+  screen.debug()
+  const inputTitle =inputs[0]
+  const inputAuthor =inputs[1]
+  const inputUrl =inputs[2]
+  const saveButton=screen.getByText('create')
+
+  await user.type(inputTitle,'title2')
+  await user.type(inputAuthor,'author2')
+  await user.type(inputUrl,'url2')
+  await user.click(saveButton)
+  expect(mockHandler.mock.calls[0][0]).toEqual({
+    author:'author2',
+    title:'title2',
+    url:'url2'
+  })
 })
