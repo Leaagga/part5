@@ -77,7 +77,23 @@ describe('Blog app', function() {
         it('user can delete the blog',function(){
           cy.contains('view').click()
           cy.get('#deleteButton').click()
-          cy.should('not.contain','title2 author2')
+          cy.get('#blogComponents').should('not.contain','title2 author2')
+        })
+        it('another user can\'t see the delete button',function(){
+          const user2 ={
+            username:'username2',
+            name:'name2',
+            password:'password2'
+          }
+          cy.request('POST','http://localhost:3003/api/users',user2)
+          cy.get('#logoutButton').click()
+          cy.get('#username').type('username2')
+          cy.get('#password').type('password2')
+          cy.get('#loginButton').click()
+          cy.contains('view').click()
+          cy.contains('title2 author2').parent().should('not.contain','remove')
+
+
         })
       })
     })

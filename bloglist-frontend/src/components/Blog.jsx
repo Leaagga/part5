@@ -104,13 +104,13 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
       .then((response) => {console.log(response)})
   }
   return(
-    <div>
+    <div id='blogComponents'>
       <div>
         <form>
           <label>
             {user.username} logged in.
           </label>
-          <button onClick={logoutHandler}>
+          <button id='logoutButton' onClick={logoutHandler}>
           logout
           </button>
         </form>
