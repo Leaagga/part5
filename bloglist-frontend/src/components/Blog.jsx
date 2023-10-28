@@ -120,7 +120,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
           />
         </Togglable>
       </div>
-      {blogs.sort((a,b) => b.likes-a.likes).map(blog =>
+      {blogs?blogs.sort((a,b) => b.likes-a.likes).map(blog =>
         <Blogitem
           key={blog.id}
           blog={blog}
@@ -130,7 +130,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
           blogs={blogs}
           setBlogs={setBlogs}
           addLikes={handleLikes}/>
-      )}
+      ):''}
     </div>)
 }
 export default Blog
