@@ -36,7 +36,7 @@ const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle,setBlogs,blogs,
         <div className='url'>{blog.url}</div>
         <div><label className='likes'>{blog.likes}</label><button id='likesButton' onClick={handleLikes}>likes</button></div>
         <div>{blog.user.username}</div>
-        <button onClick={handleDelete}>remove</button>
+        <button id='deleteButton' onClick={handleDelete}>remove</button>
       </div>
     </div>)}
 export default Blogitem

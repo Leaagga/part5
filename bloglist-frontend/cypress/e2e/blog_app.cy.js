@@ -74,6 +74,11 @@ describe('Blog app', function() {
 
           cy.get('@likesnum').should('contain','1')
         })
+        it('user can delete the blog',function(){
+          cy.contains('view').click()
+          cy.get('#deleteButton').click()
+          cy.should('not.contain','title2 author2')
+        })
       })
     })
   })
