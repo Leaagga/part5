@@ -114,7 +114,7 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
           logout
           </button>
         </form>
-        <Togglable buttonLabel='new blog'>
+        <Togglable buttonLabel='new blog' id='blogCreate'>
           <BlogForm
             createBlog={handleCreate}
           />
