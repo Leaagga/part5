@@ -34,7 +34,7 @@ const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle,setBlogs,blogs,
       </label><button onClick={toggleVisibility}>{visible?'hide':'view'}</button></div>
       <div style={showWhenVisible}>
         <div className='url'>{blog.url}</div>
-        <div><label className='likes'>{blog.likes}</label><button onClick={handleLikes}>likes</button></div>
+        <div><label className='likes'>{blog.likes}</label><button id='likesButton' onClick={handleLikes}>likes</button></div>
         <div>{blog.user.username}</div>
         <button onClick={handleDelete}>remove</button>
       </div>

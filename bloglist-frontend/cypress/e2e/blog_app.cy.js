@@ -1,11 +1,16 @@
 describe('Blog app', function() {
+  const user ={
+    username:'username1',
+    name:'name1',
+    password:'password1'
+  }
+  const blog ={
+    title:'title2',
+    author:'author2',
+    url:'url2'
+  }
   beforeEach(function() {
     cy.request('POST','http://localhost:3003/api/testing/reset')
-    const user ={
-      username:'username1',
-      name:'name1',
-      password:'password1'
-    }
     cy.request('POST','http://localhost:3003/api/users',user)
     cy.visit('http://localhost:5173/')
   })
@@ -45,6 +50,30 @@ describe('Blog app', function() {
         cy.get('#blogCreateButton').click()
 
         cy.contains('title1 author1')
+      })
+      describe('when user create a blog', function(){
+        beforeEach(function(){
+          cy.request('POST','http://localhost:3003/api/login',user)
+            .then(response => {
+              cy.request({
+                method:'POST',
+                url:'http://localhost:3003/api/blogs',
+                body:blog,
+                headers:{
+                  'Authorization':`Bearer ${response.body.token}`
+                }
+              })
+            })
+          cy.visit('http://localhost:5173/')
+        })
+        it('users can like a blog', function() {
+          cy.contains('view').click()
+          cy.get('#likesButton').parent().get('.likes').as('likesnum')
+          cy.get('@likesnum').should('contain','0')
+          cy.get('#likesButton').click()
+
+          cy.get('@likesnum').should('contain','1')
+        })
       })
     })
   })
