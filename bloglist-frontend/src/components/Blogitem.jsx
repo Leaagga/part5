@@ -28,7 +28,7 @@ const Blogitem = ({ blog,user,blogChangHandle,setBlogChangHandle,setBlogs,blogs,
   }
 
   return(
-    <div>
+    <div className='blogItem'>
       <div><label className='titleAndAuthor'>
         {blog.title} {blog.author}
       </label><button onClick={toggleVisibility}>{visible?'hide':'view'}</button></div>

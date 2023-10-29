@@ -92,7 +92,58 @@ describe('Blog app', function() {
           cy.get('#loginButton').click()
           cy.contains('view').click()
           cy.contains('title2 author2').parent().should('not.contain','remove')
+        })
+        it('blogs are ordered by likes',function(){
+          const mostLikesBlog ={
+            title:'The title with the most likes',
+            author:'author1',
+            url:'url1'
+          }
+          const secondLikesBlog ={
+            title:'The title with the second most likes',
+            author:'author1',
+            url:'url1'
+          }
+          cy.request('POST','http://localhost:3003/api/login',user)
+            .then(response => {
+              cy.request({
+                method:'POST',
+                url:'http://localhost:3003/api/blogs',
+                body:mostLikesBlog,
+                headers:{
+                  'Authorization':`Bearer ${response.body.token}`
+                }
+              })
+              cy.request({
+                method:'POST',
+                url:'http://localhost:3003/api/blogs',
+                body:secondLikesBlog,
+                headers:{
+                  'Authorization':`Bearer ${response.body.token}`
+                }
+              })})
+          cy.visit('http://localhost:5173/')
 
+          cy.contains('The title with the most likes').parent().contains('view').click()
+          cy.contains('The title with the most likes').parent().parent().as('mostLikesBlog')
+          cy.get('@mostLikesBlog').find('#likesButton').as('mostLikesButton').click()
+          cy.get('@mostLikesButton').parent().find('.likes').as('mostLikesNum')
+
+          cy.get('@mostLikesNum').should('contain','1')
+
+          cy.contains('The title with the second most likes').parent().contains('view').click()
+          cy.contains('The title with the second most likes').parent().parent().as('secondLikesBlog')
+          cy.get('@secondLikesBlog').find('#likesButton').as('secondLikesButton').click()
+          cy.get('@secondLikesButton').parent().find('.likes').as('secondLikesNum')
+
+          cy.get('@secondLikesNum').should('contain','1')
+
+          cy.get('@mostLikesButton').click()
+          cy.get('@mostLikesNum',{ timeout: 10000 }).should('contain','2')
+
+
+          cy.get('table>tr').eq(0).should('contain', 'The title with the most likes')
+          cy.get('table>tr').eq(1).should('contain', 'The title with the second most likes')
 
         })
       })

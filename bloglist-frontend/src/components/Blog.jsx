@@ -101,7 +101,9 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
   }
   const handleLikes =(blog,user) => {
     blogService.putLikes(blog,user.token)
-      .then((response) => {console.log(response)})
+      .then((response) => {
+        console.log(response)
+        setBlogs(blogs.filter((b) => b.id!==response.id).concat(response))})
   }
   return(
     <div id='blogComponents'>
@@ -120,17 +122,21 @@ const Blog=({ user,setUser,blogChangHandle,setBlogChangHandle,setMessage }) => {
           />
         </Togglable>
       </div>
-      {blogs?blogs.sort((a,b) => b.likes-a.likes).map(blog =>
-        <Blogitem
-          key={blog.id}
-          blog={blog}
-          user={user}
-          blogChangHandle={blogChangHandle}
-          setBlogChangHandle={setBlogChangHandle}
-          blogs={blogs}
-          setBlogs={setBlogs}
-          addLikes={handleLikes}/>
-      ):''}
+      <table>
+        {blogs?blogs.sort((a,b) => b.likes-a.likes).map(blog =>
+          <tr key={blog.id}>
+            <Blogitem
+              key={blog.id}
+              blog={blog}
+              user={user}
+              blogChangHandle={blogChangHandle}
+              setBlogChangHandle={setBlogChangHandle}
+              blogs={blogs}
+              setBlogs={setBlogs}
+              addLikes={handleLikes}/>
+          </tr>
+        ):''}
+      </table>
     </div>)
 }
 export default Blog
